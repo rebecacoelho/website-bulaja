@@ -7,12 +7,15 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Loading } from '@/components/ui/loading';
 import { Footer } from '@/components/Footer';
+import { useMedicine } from '@/contexts/MedicineContext';
+import { normalizeString } from '@/utils/normalizeString';
 
 interface Medicine {
   nome: string;
 }
 
 export default function FindMedicinePage() {
+  const { setSelectedMedicine } = useMedicine();
   const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [filteredMedicines, setFilteredMedicines] = useState<Medicine[]>([]);
   const [loading, setLoading] = useState<boolean>(true); 
@@ -32,9 +35,15 @@ export default function FindMedicinePage() {
   }, []);
 
   const handleSearch = (query: string) => {
-    const filtered = medicines.filter(med => med.nome.toLowerCase().includes(query.toLowerCase()));
+    const normalizedQuery = normalizeString(query);
+    const filtered = medicines.filter(med => normalizeString(med.nome).includes(normalizedQuery));
     setFilteredMedicines(filtered);
+  }; 
+  
+  const handleMedicineClick = (med: any) => {
+    setSelectedMedicine(med);
   };
+
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -51,8 +60,8 @@ export default function FindMedicinePage() {
                 ) : (
                   filteredMedicines.length > 0 ? (
                     filteredMedicines.map((med) => (
-                      <Link href={`/remedio/${med.nome.toLowerCase()}`} key={med.nome}>
-                        <div className='bg-gray-200 p-4 rounded-md'>
+                      <Link href={`/remedio/${normalizeString(med.nome)}`} key={med.nome} >
+                        <div className='bg-gray-200 p-4 rounded-md' onClick={() => handleMedicineClick(med)}>
                           <h3 className='text-center font-bold'>{med.nome}</h3>
                         </div>
                       </Link>

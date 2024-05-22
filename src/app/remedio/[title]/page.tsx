@@ -1,22 +1,27 @@
-import { use } from 'react';
+'use client'
 import { notFound } from 'next/navigation';
 import { Header } from '@/components/Header';
 import TabsMedicine from '@/components/TabsMedicine/TabsMedicine';
 import '../../globals.css';
 import { Footer } from '@/components/Footer';
-
-async function fetchMedicine(title: string) {
-  const response = await fetch('https://api-bulaja.onrender.com/api/medicines');
-  const data = await response.json();
-  return data.find((med: Medicine) => med.nome.toLowerCase() === title.toLowerCase());
-}
+import { useEffect } from 'react';
+import { useMedicine } from '@/contexts/MedicineContext';
+import { normalizeString } from '@/utils/normalizeString';
 
 export default function MedicinePage({ params }: { params: { title: string } }) {
-  const medicine: Medicine = use(fetchMedicine(params.title));
+  const { selectedMedicine } = useMedicine();
 
-  if (!medicine) {
-    notFound();
+  useEffect(() => {
+    if (!selectedMedicine || normalizeString(selectedMedicine.nome) !== params.title) {
+      notFound();
+    }
+  }, [selectedMedicine, params.title]);
+
+  if (!selectedMedicine) {
+    return null;
   }
+
+  const medicine = selectedMedicine;
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
