@@ -1,5 +1,5 @@
-import Pic1 from '../../../public/post1.png'
-import Pic2 from '../../../public/post2.png'
+import Pic1 from '../../../public/medicamentos.jpeg'
+import Pic2 from '../../../public/aspirina.jpeg'
 import { SeePost } from "../SeePost";
 
 export const SectionPublications = () => {
@@ -12,8 +12,8 @@ export const SectionPublications = () => {
       </div>
     </div>
     <div className="flex flex-col md:flex-row justify-around mx-4 md:mx-16 mt-8 gap-4 lg:gap-0 items-center">
-      <SeePost title="Disease detection, check up in the laboratory" description="In this case, the role of the health laboratory is very important to do a disease detection..." image={Pic1} />
-      <SeePost title="Herbal medicines that are safe for consumption" description="Herbal medicine is very widely used at this time because of its very good for your health..." image={Pic2} />
+      <SeePost title="Gastos com Medicamentos" description="De acordo com o IBGE As famílias brasileiras gastaram cerca de R$ 168,3 bilhões em medicamentos em 2021..." image={Pic1} />
+      <SeePost title="Evolução nos medicamentos" description="De acordo com a OMS a aspirina, foi a primeira droga sintética, introduzida em 1897..." image={Pic2} />
     </div>
    </div>
   );
